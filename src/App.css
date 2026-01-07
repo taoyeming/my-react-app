@@ -1,0 +1,142 @@
+/* ... existing styles ... */
+.ui-overlay {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  pointer-events: none;
+}
+.title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 300;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #00ffcc;
+}
+.subtitle {
+  margin: 5px 0 20px 0;
+  font-size: 14px;
+  opacity: 0.7;
+  letter-spacing: 1px;
+}
+.stats {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 15px;
+  border-left: 2px solid #00ffcc;
+  backdrop-filter: blur(5px);
+}
+.stat-item {
+  margin-bottom: 5px;
+}
+.label {
+  font-size: 10px;
+  color: #aaa;
+  margin-right: 10px;
+}
+.value {
+  font-size: 16px;
+  font-family: monospace;
+  color: #fff;
+}
+
+/* --- COOL LOADING SCREEN --- */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #00ffcc;
+  font-family: 'Courier New', monospace;
+  text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+}
+
+.radar-scope {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border: 2px solid rgba(0, 255, 204, 0.3);
+  border-radius: 50%;
+  margin-bottom: 20px;
+  background: 
+    radial-gradient(circle, transparent 0%, transparent 30%, rgba(0, 255, 204, 0.1) 31%, transparent 32%),
+    radial-gradient(circle, transparent 0%, transparent 60%, rgba(0, 255, 204, 0.1) 61%, transparent 62%);
+  box-shadow: 0 0 20px rgba(0, 255, 204, 0.1);
+}
+
+.radar-sweep {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent 0deg, rgba(0, 255, 204, 0.1) 60deg, rgba(0, 255, 204, 0.5) 90deg, transparent 91deg);
+  animation: radar-spin 2s linear infinite;
+}
+
+.radar-dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 5px #fff;
+  opacity: 0;
+  animation: radar-dot-blink 2s linear infinite;
+}
+
+/* Simulate random dots appearing */
+.dot-1 { top: 30%; left: 40%; animation-delay: 0.2s; }
+.dot-2 { top: 70%; left: 60%; animation-delay: 0.8s; }
+.dot-3 { top: 50%; left: 80%; animation-delay: 1.5s; }
+
+.loading-text {
+  font-size: 14px;
+  letter-spacing: 2px;
+  animation: blink-text 1s step-end infinite;
+}
+
+.progress-bar {
+  width: 200px;
+  height: 2px;
+  background: rgba(0, 255, 204, 0.2);
+  margin-top: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: #00ffcc;
+  transform: translateX(-100%);
+  animation: progress-slide 2s ease-in-out infinite;
+}
+
+@keyframes radar-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes radar-dot-blink {
+  0% { opacity: 0; }
+  40% { opacity: 1; }
+  45% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes blink-text {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes progress-slide {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(0%); }
+  100% { transform: translateX(100%); }
+}
