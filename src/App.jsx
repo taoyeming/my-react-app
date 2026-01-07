@@ -17,6 +17,9 @@ import { TimeProvider } from './context/TimeContext'
 import { SelectionProvider, useSelection } from './context/SelectionContext'
 import './App.css'
 
+import { SearchBar } from './components/SearchBar'
+import { CameraManager } from './components/CameraManager'
+
 extend({ EffectComposer: ThreeEffectComposer, RenderPass, AfterimagePass })
 
 function Loading() {
@@ -39,32 +42,13 @@ function Loading() {
 }
 
 function Effects() {
-  const composer = useRef()
-  const { gl, scene, camera, size } = useThree()
-
-  useEffect(() => {
-    if (composer.current) {
-      composer.current.setSize(size.width, size.height)
-    }
-  }, [size])
-
-  useFrame(() => {
-    if (composer.current) {
-      composer.current.render()
-    }
-  }, 1) 
-
-  return (
-    <effectComposer ref={composer} args={[gl]}>
-      <renderPass attachArray="passes" args={[scene, camera]} />
-      <afterimagePass attachArray="passes" damp={0.7} /> 
-    </effectComposer>
-  )
+// ... existing code ...
 }
 
 function AppContent() {
   const { satellites, loading } = useStarlinkData()
   const { filterYear } = useSelection()
+  const controlsRef = useRef() // Ref for OrbitControls
 
   const visibleCount = loading ? 0 : (
       filterYear === 'ALL' 
@@ -91,10 +75,13 @@ function AppContent() {
           {!loading && <Satellites satellites={satellites} />}
           
           <OrbitControls 
+            ref={controlsRef}
             enablePan={false}
             minDistance={5.6}
             maxDistance={30}
           />
+
+          <CameraManager controlsRef={controlsRef} />
           
           <EffectComposer>
             <Bloom luminanceThreshold={0.1} luminanceSmoothing={0.9} intensity={2.0} />
@@ -114,6 +101,7 @@ function AppContent() {
         </div>
       </div>
 
+      <SearchBar />
       <TimeControls />
       <InfoPanel />
       <FilterControls />
