@@ -1,6 +1,6 @@
 import * as satellite from 'satellite.js'
 
-const STARLINK_TLE_URL = 'https://celestrak.org/NORAD/elements/gp.php?GROUP=starlink&FORMAT=tle'
+const STARLINK_TLE_URL = '/starlink.tle' // Use local mock data to avoid 403 block
 
 export async function fetchStarlinkTle() {
   try {

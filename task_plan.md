@@ -25,4 +25,7 @@
 - [x] **5.3 HUD & Filters:** Detailed info panel and launch year filtering.
 - [x] **5.4 Layout:** Four-corner optimized UI.
 
+## Phase 6: Maintenance & Operations
+- [ ] **6.1 Data Cache Strategy:** Run `node scripts/update_tle.cjs` periodically to cache real data locally and remove dependency on mock data. <!-- id: 13 -->
+
 **Version v1.0.0 is stable and ready for use.**
