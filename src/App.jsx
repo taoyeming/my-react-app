@@ -12,13 +12,13 @@ import { TimeControls } from './components/TimeControls'
 import { TimeManager } from './components/TimeManager'
 import { InfoPanel } from './components/InfoPanel'
 import { FilterControls } from './components/FilterControls'
+import { SearchBar } from './components/SearchBar'
+import { CameraManager } from './components/CameraManager'
+import { SettingsMenu } from './components/SettingsMenu' // New
 import { useStarlinkData } from './hooks/useStarlinkData'
 import { TimeProvider } from './context/TimeContext'
 import { SelectionProvider, useSelection } from './context/SelectionContext'
 import './App.css'
-
-import { SearchBar } from './components/SearchBar'
-import { CameraManager } from './components/CameraManager'
 
 extend({ EffectComposer: ThreeEffectComposer, RenderPass, AfterimagePass })
 
@@ -42,13 +42,14 @@ function Loading() {
 }
 
 function Effects() {
-// ... existing code ...
+  // Custom effect composer logic if needed
+  return null
 }
 
 function AppContent() {
   const { satellites, loading } = useStarlinkData()
-  const { filterYear } = useSelection()
-  const controlsRef = useRef() // Ref for OrbitControls
+  const { filterYear, bloomEnabled } = useSelection() // Get bloom state
+  const controlsRef = useRef()
 
   const visibleCount = loading ? 0 : (
       filterYear === 'ALL' 
@@ -63,7 +64,6 @@ function AppContent() {
           <color attach="background" args={['#00050a']} />
           <PerspectiveCamera makeDefault position={[0, 0, 15]} fov={45} />
           
-          {/* Dynamic Lighting System */}
           <ambientLight intensity={0.2} /> 
           <SunLight />
           
@@ -83,9 +83,12 @@ function AppContent() {
 
           <CameraManager controlsRef={controlsRef} />
           
-          <EffectComposer>
-            <Bloom luminanceThreshold={0.1} luminanceSmoothing={0.9} intensity={2.0} />
-          </EffectComposer>
+          {/* Conditional Rendering of Post-Processing */}
+          {bloomEnabled && (
+            <EffectComposer>
+              <Bloom luminanceThreshold={0.1} luminanceSmoothing={0.9} intensity={2.0} />
+            </EffectComposer>
+          )}
 
         </Suspense>
       </Canvas>
@@ -105,6 +108,7 @@ function AppContent() {
       <TimeControls />
       <InfoPanel />
       <FilterControls />
+      <SettingsMenu />
 
     </div>
   )

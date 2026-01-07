@@ -4,17 +4,17 @@ const SelectionContext = createContext()
 
 export function SelectionProvider({ children }) {
   // Filter state
-  const [filterYear, setFilterYear] = useState('ALL') // 'ALL' or number (e.g. 2023)
-  
-  // Selected satellite (object with full data)
+  const [filterYear, setFilterYear] = useState('ALL') 
   const [selectedSat, setSelectedSat] = useState(null)
+  
+  // Quality Settings
+  const [bloomEnabled, setBloomEnabled] = useState(true)
 
   return (
     <SelectionContext.Provider value={{ 
-      filterYear, 
-      setFilterYear, 
-      selectedSat, 
-      setSelectedSat 
+      filterYear, setFilterYear, 
+      selectedSat, setSelectedSat,
+      bloomEnabled, setBloomEnabled
     }}>
       {children}
     </SelectionContext.Provider>

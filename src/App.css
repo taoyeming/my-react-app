@@ -1,4 +1,17 @@
-/* ... existing styles ... */
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #000;
+}
+
+/* UI Overlay (Title) */
 .ui-overlay {
   position: absolute;
   top: 30px;
@@ -6,6 +19,7 @@
   color: white;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   pointer-events: none;
+  z-index: 5;
 }
 .title {
   margin: 0;
@@ -41,7 +55,7 @@
   color: #fff;
 }
 
-/* --- COOL LOADING SCREEN --- */
+/* Radar Loading Screen */
 .loading-container {
   display: flex;
   flex-direction: column;
@@ -51,7 +65,6 @@
   font-family: 'Courier New', monospace;
   text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
 }
-
 .radar-scope {
   position: relative;
   width: 150px;
@@ -64,7 +77,6 @@
     radial-gradient(circle, transparent 0%, transparent 60%, rgba(0, 255, 204, 0.1) 61%, transparent 62%);
   box-shadow: 0 0 20px rgba(0, 255, 204, 0.1);
 }
-
 .radar-sweep {
   position: absolute;
   top: 0;
@@ -75,7 +87,6 @@
   background: conic-gradient(from 0deg, transparent 0deg, rgba(0, 255, 204, 0.1) 60deg, rgba(0, 255, 204, 0.5) 90deg, transparent 91deg);
   animation: radar-spin 2s linear infinite;
 }
-
 .radar-dot {
   position: absolute;
   width: 4px;
@@ -86,18 +97,14 @@
   opacity: 0;
   animation: radar-dot-blink 2s linear infinite;
 }
-
-/* Simulate random dots appearing */
 .dot-1 { top: 30%; left: 40%; animation-delay: 0.2s; }
 .dot-2 { top: 70%; left: 60%; animation-delay: 0.8s; }
 .dot-3 { top: 50%; left: 80%; animation-delay: 1.5s; }
-
 .loading-text {
   font-size: 14px;
   letter-spacing: 2px;
   animation: blink-text 1s step-end infinite;
 }
-
 .progress-bar {
   width: 200px;
   height: 2px;
@@ -106,7 +113,6 @@
   position: relative;
   overflow: hidden;
 }
-
 .progress-fill {
   position: absolute;
   top: 0;
@@ -118,25 +124,65 @@
   animation: progress-slide 2s ease-in-out infinite;
 }
 
-@keyframes radar-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
+@keyframes radar-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes radar-dot-blink { 0% { opacity: 0; } 40% { opacity: 1; } 45% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes blink-text { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+@keyframes progress-slide { 0% { transform: translateX(-100%); } 50% { transform: translateX(0%); } 100% { transform: translateX(100%); } }
 
-@keyframes radar-dot-blink {
-  0% { opacity: 0; }
-  40% { opacity: 1; }
-  45% { opacity: 1; }
-  100% { opacity: 0; }
-}
+/* --- RESPONSIVE ADJUSTMENTS --- */
+@media (max-width: 768px) {
+  .title { font-size: 20px; }
+  .subtitle { display: none; }
+  .ui-overlay { top: 20px; left: 20px; }
+  
+  /* Stack Time Controls at bottom */
+  .time-controls {
+    bottom: 20px !important;
+    left: 20px !important;
+    right: 20px !important;
+    top: auto !important;
+    transform: none !important;
+    width: auto !important;
+    padding: 10px !important;
+  }
+  
+  /* Filter Controls */
+  .filter-controls {
+    bottom: 120px !important;
+    left: 20px !important;
+    right: 20px !important;
+    width: auto !important;
+    max-width: none !important;
+    text-align: center;
+    border-right: none !important;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    justify-content: center;
+  }
+  .filter-controls .button-group {
+    justify-content: center;
+  }
 
-@keyframes blink-text {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
+  /* Info Panel Mobile */
+  .info-panel {
+    top: auto !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: 40%;
+    border-radius: 20px 20px 0 0;
+    border: none !important;
+    border-top: 2px solid #00ffcc !important;
+    z-index: 20;
+    background: rgba(10, 20, 40, 0.95) !important;
+  }
 
-@keyframes progress-slide {
-  0% { transform: translateX(-100%); }
-  50% { transform: translateX(0%); }
-  100% { transform: translateX(100%); }
+  /* Search Bar */
+  .search-bar {
+    top: 80px !important;
+    left: 20px !important;
+    width: calc(100% - 40px) !important;
+  }
 }
