@@ -7,6 +7,7 @@ import { AfterimagePass } from 'three-stdlib'
 import { Suspense, useRef, useEffect } from 'react'
 import { Earth } from './components/Earth'
 import { Satellites } from './components/Satellites'
+import { SunLight } from './components/SunLight'
 import { TimeControls } from './components/TimeControls'
 import { TimeManager } from './components/TimeManager'
 import { InfoPanel } from './components/InfoPanel'
@@ -51,12 +52,11 @@ function Effects() {
     if (composer.current) {
       composer.current.render()
     }
-  }, 1) // Render priority 1 (after default)
+  }, 1) 
 
   return (
     <effectComposer ref={composer} args={[gl]}>
       <renderPass attachArray="passes" args={[scene, camera]} />
-      {/* damp: 0.8 means 80% of the previous frame is kept. High trail. */}
       <afterimagePass attachArray="passes" damp={0.7} /> 
     </effectComposer>
   )
@@ -79,8 +79,9 @@ function AppContent() {
           <color attach="background" args={['#00050a']} />
           <PerspectiveCamera makeDefault position={[0, 0, 15]} fov={45} />
           
-          <ambientLight intensity={1.5} />
-          <directionalLight position={[10, 10, 5]} intensity={3} />
+          {/* Dynamic Lighting System */}
+          <ambientLight intensity={0.2} /> 
+          <SunLight />
           
           <Stars radius={300} depth={60} count={20000} factor={7} saturation={0} fade speed={1} />
           
@@ -95,11 +96,6 @@ function AppContent() {
             maxDistance={30}
           />
           
-          {/* Post-Processing Pipeline */}
-          {/* We use standard EffectComposer from pmndrs for Bloom, but simple Afterimage via stdlib */}
-          {/* Mixing them is tricky. Let's stick to just pmndrs Bloom for now and add a custom Afterimage if needed.
-              Actually, simply enabling Bloom gives a "glow" which is often mistaken for trails.
-              Let's try pure Bloom first as it's cleaner. */}
           <EffectComposer>
             <Bloom luminanceThreshold={0.1} luminanceSmoothing={0.9} intensity={2.0} />
           </EffectComposer>
