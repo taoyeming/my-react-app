@@ -78,19 +78,20 @@ export function SearchBar() {
           background: transparent;
           border: none;
           color: #fff;
-          padding: 10px 15px;
+          padding: 12px 15px;
           font-family: inherit;
-          font-size: 12px;
+          font-size: 16px; /* Prevents auto-zoom on mobile */
           outline: none;
         }
         input::placeholder {
           color: #00ffcc;
           opacity: 0.5;
+          font-size: 14px;
         }
         .icon {
-          padding-right: 10px;
+          padding-right: 15px;
           opacity: 0.7;
-          font-size: 12px;
+          font-size: 16px;
         }
         .results-list {
           margin-top: 5px;

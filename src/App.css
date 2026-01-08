@@ -1,129 +1,115 @@
-* {
-  box-sizing: border-box;
+/* ... existing styles ... */
+/* Background Music Control */
+.music-control {
+  position: absolute;
+  top: 100px; /* Below Search bar on desktop */
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  z-index: 10;
 }
 
-html, body, #root {
-  width: 100%;
+.music-btn {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(0, 255, 204, 0.3);
+  color: #00ffcc;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(5px);
+}
+
+.music-btn:hover {
+  background: rgba(0, 255, 204, 0.1);
+  border-color: #00ffcc;
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.2);
+}
+
+.music-btn.playing {
+  border-color: #00ffcc;
+  background: rgba(0, 255, 204, 0.05);
+}
+
+.music-icon {
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.music-visualizer {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+  padding-right: 5px;
+}
+
+.music-visualizer .bar {
+  width: 2px;
   height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: #000;
+  background: #00ffcc;
+  animation: bar-dance 1s ease-in-out infinite;
 }
 
-/* UI Overlay (Title) */
+.music-visualizer .bar:nth-child(2) { animation-delay: 0.2s; height: 70%; }
+.music-visualizer .bar:nth-child(3) { animation-delay: 0.4s; height: 90%; }
+.music-visualizer .bar:nth-child(4) { animation-delay: 0.1s; height: 60%; }
+
+@keyframes bar-dance {
+  0%, 100% { height: 30%; }
+  50% { height: 100%; }
+}
+
+@media (max-width: 768px) {
+  .music-control {
+    top: auto;
+    bottom: 250px; /* Above the stacked bottom controls */
+    right: 15px;
+  }
+}
+
+/* ... existing styles ... */
+/* Base Styles (Desktop First) */
+* { box-sizing: border-box; }
+html, body, #root { width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; background-color: #000; }
+
 .ui-overlay {
   position: absolute;
-  top: 30px;
-  left: 30px;
+  top: 30px; left: 30px;
   color: white;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   pointer-events: none;
   z-index: 5;
 }
-.title {
-  margin: 0;
-  font-size: 28px;
-  font-weight: 300;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #00ffcc;
-}
-.subtitle {
-  margin: 5px 0 20px 0;
-  font-size: 14px;
-  opacity: 0.7;
-  letter-spacing: 1px;
-}
-.stats {
-  background: rgba(0, 0, 0, 0.4);
-  padding: 15px;
-  border-left: 2px solid #00ffcc;
-  backdrop-filter: blur(5px);
-}
-.stat-item {
-  margin-bottom: 5px;
-}
-.label {
-  font-size: 10px;
-  color: #aaa;
-  margin-right: 10px;
-}
-.value {
-  font-size: 16px;
-  font-family: monospace;
-  color: #fff;
-}
+.title { margin: 0; font-size: 28px; font-weight: 300; letter-spacing: 2px; text-transform: uppercase; color: #00ffcc; }
+.subtitle { margin: 5px 0 20px 0; font-size: 14px; opacity: 0.7; letter-spacing: 1px; }
+.stats { background: rgba(0, 0, 0, 0.4); padding: 15px; border-left: 2px solid #00ffcc; backdrop-filter: blur(5px); }
+.stat-item { margin-bottom: 5px; }
+.label { font-size: 10px; color: #aaa; margin-right: 10px; }
+.value { font-size: 16px; font-family: monospace; color: #fff; }
 
 /* Radar Loading Screen */
-.loading-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #00ffcc;
-  font-family: 'Courier New', monospace;
-  text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
-}
-.radar-scope {
-  position: relative;
-  width: 150px;
-  height: 150px;
-  border: 2px solid rgba(0, 255, 204, 0.3);
-  border-radius: 50%;
-  margin-bottom: 20px;
-  background: 
-    radial-gradient(circle, transparent 0%, transparent 30%, rgba(0, 255, 204, 0.1) 31%, transparent 32%),
-    radial-gradient(circle, transparent 0%, transparent 60%, rgba(0, 255, 204, 0.1) 61%, transparent 62%);
-  box-shadow: 0 0 20px rgba(0, 255, 204, 0.1);
-}
-.radar-sweep {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: 50%;
-  background: conic-gradient(from 0deg, transparent 0deg, rgba(0, 255, 204, 0.1) 60deg, rgba(0, 255, 204, 0.5) 90deg, transparent 91deg);
-  animation: radar-spin 2s linear infinite;
-}
-.radar-dot {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background: #fff;
-  border-radius: 50%;
-  box-shadow: 0 0 5px #fff;
-  opacity: 0;
-  animation: radar-dot-blink 2s linear infinite;
-}
+.loading-container { display: flex; flex-direction: column; align-items: center; justify-content: center; color: #00ffcc; font-family: 'Courier New', monospace; text-shadow: 0 0 10px rgba(0, 255, 204, 0.5); }
+.radar-scope { position: relative; width: 150px; height: 150px; border: 2px solid rgba(0, 255, 204, 0.3); border-radius: 50%; margin-bottom: 20px; background: radial-gradient(circle, transparent 0%, transparent 30%, rgba(0, 255, 204, 0.1) 31%, transparent 32%), radial-gradient(circle, transparent 0%, transparent 60%, rgba(0, 255, 204, 0.1) 61%, transparent 62%); box-shadow: 0 0 20px rgba(0, 255, 204, 0.1); }
+.radar-sweep { position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 50%; background: conic-gradient(from 0deg, transparent 0deg, rgba(0, 255, 204, 0.1) 60deg, rgba(0, 255, 204, 0.5) 90deg, transparent 91deg); animation: radar-spin 2s linear infinite; }
+.radar-dot { position: absolute; width: 4px; height: 4px; background: #fff; border-radius: 50%; box-shadow: 0 0 5px #fff; opacity: 0; animation: radar-dot-blink 2s linear infinite; }
 .dot-1 { top: 30%; left: 40%; animation-delay: 0.2s; }
 .dot-2 { top: 70%; left: 60%; animation-delay: 0.8s; }
 .dot-3 { top: 50%; left: 80%; animation-delay: 1.5s; }
-.loading-text {
-  font-size: 14px;
-  letter-spacing: 2px;
-  animation: blink-text 1s step-end infinite;
-}
-.progress-bar {
-  width: 200px;
-  height: 2px;
-  background: rgba(0, 255, 204, 0.2);
-  margin-top: 10px;
-  position: relative;
-  overflow: hidden;
-}
-.progress-fill {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background: #00ffcc;
-  transform: translateX(-100%);
-  animation: progress-slide 2s ease-in-out infinite;
-}
-
+.loading-text { font-size: 14px; letter-spacing: 2px; animation: blink-text 1s step-end infinite; }
+.progress-bar { width: 200px; height: 2px; background: rgba(0, 255, 204, 0.2); margin-top: 10px; position: relative; overflow: hidden; }
+.progress-fill { position: absolute; top: 0; left: 0; height: 100%; width: 100%; background: #00ffcc; transform: translateX(-100%); animation: progress-slide 2s ease-in-out infinite; }
 @keyframes radar-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes radar-dot-blink { 0% { opacity: 0; } 40% { opacity: 1; } 45% { opacity: 1; } 100% { opacity: 0; } }
 @keyframes blink-text { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
@@ -131,39 +117,51 @@ html, body, #root {
 
 /* --- RESPONSIVE ADJUSTMENTS --- */
 @media (max-width: 768px) {
-  .title { font-size: 20px; }
+  .title { font-size: 18px; }
   .subtitle { display: none; }
-  .ui-overlay { top: 20px; left: 20px; }
+  .stats { padding: 10px; border-width: 2px; }
+  .stat-item .label { font-size: 9px; }
+  .stat-item .value { font-size: 12px; }
+
+  .ui-overlay { 
+    top: 15px; left: 15px; 
+    /* Ensure title doesn't overlap gear icon */
+    max-width: calc(100% - 60px); 
+  }
   
-  /* Stack Time Controls at bottom */
+  /* Settings Menu (Gear) */
+  /* Handled in component style, but ensured here just in case */
+  /* It is at top: 20px, right: 20px via component media query */
+
+  /* Search Bar - Push down to avoid title/gear overlap */
+  .search-bar {
+    top: 85px !important;
+    left: 15px !important;
+    width: calc(100% - 30px) !important;
+  }
+  .input-wrapper { background: rgba(0, 0, 0, 0.8); }
+
+  /* Bottom Controls Container */
+  /* We stack Time controls tightly at the bottom */
+
+  /* Time Controls */
   .time-controls {
-    bottom: 20px !important;
-    left: 20px !important;
-    right: 20px !important;
+    bottom: 15px !important;
+    left: 15px !important;
+    right: 15px !important;
     top: auto !important;
     transform: none !important;
     width: auto !important;
-    padding: 10px !important;
+    padding: 15px !important;
+    background: rgba(0,0,0,0.85) !important; /* Darker background for contrast */
+    border: 1px solid #00ffcc !important;
+    border-radius: 8px;
+    gap: 8px !important;
   }
-  
-  /* Filter Controls */
-  .filter-controls {
-    bottom: 120px !important;
-    left: 20px !important;
-    right: 20px !important;
-    width: auto !important;
-    max-width: none !important;
-    text-align: center;
-    border-right: none !important;
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 10px;
-    justify-content: center;
-  }
-  .filter-controls .button-group {
-    justify-content: center;
-  }
+  .time-controls .clock-display { font-size: 14px; margin-bottom: 2px; }
+  .time-controls .btn { padding: 8px 0; font-size: 12px; }
 
-  /* Info Panel Mobile */
+  /* Info Panel Mobile (Drawer) */
   .info-panel {
     top: auto !important;
     bottom: 0 !important;
@@ -171,18 +169,16 @@ html, body, #root {
     right: 0 !important;
     width: 100% !important;
     height: auto !important;
-    max-height: 40%;
+    min-height: 250px;
     border-radius: 20px 20px 0 0;
     border: none !important;
-    border-top: 2px solid #00ffcc !important;
-    z-index: 20;
-    background: rgba(10, 20, 40, 0.95) !important;
+    border-top: 3px solid #00ffcc !important;
+    z-index: 100; /* On top of everything */
+    background: #0b1426 !important;
+    padding: 20px 20px 40px 20px !important; /* Extra bottom padding for safe area */
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
   }
-
-  /* Search Bar */
-  .search-bar {
-    top: 80px !important;
-    left: 20px !important;
-    width: calc(100% - 40px) !important;
-  }
+  /* Hide bottom controls when info panel is open? 
+     React logic would be better, but CSS z-index works too. 
+     InfoPanel z-index 100 covers TimeControls z-index default */
 }

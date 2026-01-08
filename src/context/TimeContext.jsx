@@ -4,7 +4,7 @@ const TimeContext = createContext()
 
 export function TimeProvider({ children }) {
   // Speed multiplier (1 = real time, 60 = 1 min/sec, -60 = reverse 1 min/sec)
-  const [speed, setSpeed] = useState(1)
+  const [speed, setSpeed] = useState(10)
   
   // The actual simulated time (Javascript Date object)
   // We use a Ref for the physics loop to avoid re-rendering components 60 times a second

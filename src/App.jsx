@@ -15,6 +15,7 @@ import { FilterControls } from './components/FilterControls'
 import { SearchBar } from './components/SearchBar'
 import { CameraManager } from './components/CameraManager'
 import { SettingsMenu } from './components/SettingsMenu' // New
+import { BackgroundMusic } from './components/BackgroundMusic' // New
 import { useStarlinkData } from './hooks/useStarlinkData'
 import { TimeProvider } from './context/TimeContext'
 import { SelectionProvider, useSelection } from './context/SelectionContext'
@@ -48,7 +49,7 @@ function Effects() {
 
 function AppContent() {
   const { satellites, loading } = useStarlinkData()
-  const { filterYear, bloomEnabled } = useSelection() // Get bloom state
+  const { filterYear, bloomEnabled, setSelectedSat } = useSelection() // Get bloom state and setter
   const controlsRef = useRef()
 
   const visibleCount = loading ? 0 : (
@@ -59,7 +60,10 @@ function AppContent() {
 
   return (
     <div style={{ width: '100vw', height: '100vh', background: '#000' }}>
-      <Canvas raycaster={{ params: { Points: { threshold: 0.05 } } }}>
+      <Canvas 
+        raycaster={{ params: { Points: { threshold: 0.15 } } }}
+        onPointerMissed={() => setSelectedSat(null)}
+      >
         <Suspense fallback={<Loading />}>
           <color attach="background" args={['#00050a']} />
           <PerspectiveCamera makeDefault position={[0, 0, 15]} fov={45} />
@@ -105,9 +109,9 @@ function AppContent() {
       </div>
 
       <SearchBar />
+      <BackgroundMusic />
       <TimeControls />
       <InfoPanel />
-      <FilterControls />
       <SettingsMenu />
 
     </div>

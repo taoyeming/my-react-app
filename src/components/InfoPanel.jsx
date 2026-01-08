@@ -62,7 +62,7 @@ export function InfoPanel() {
       <style>{`
         .info-panel {
           position: absolute;
-          top: 30px;
+          top: 90px;
           right: 30px;
           width: 280px;
           background: rgba(10, 20, 40, 0.85);

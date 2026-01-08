@@ -30,8 +30,8 @@ async function updateTle() {
     console.log(`   Satellite count: ${data.split('\n').filter(l => l.trim().length > 0).length / 3}`);
 
   } catch (error) {
-    console.error('
-❌ Update Failed:', error.message);
+    console.error(`
+❌ Update Failed:`, error.message);
     process.exit(1);
   }
 }
